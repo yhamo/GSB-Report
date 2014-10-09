@@ -2,47 +2,50 @@
 
 namespace GSB\Domain;
 
-class PractitionerType
+class PractitionerType 
 {
-    private $type_id;
-    private $type_code;
-    private $type_name;
-    private $type_place;
-    
-    public function getType_id() {
-        return $this->type_id;
+    /**
+     * PractitionerType id.
+     *
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * Name.
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * Place.
+     *
+     * @var string
+     */
+    private $place;
+
+    public function getId() {
+        return $this->id;
     }
 
-    public function getType_code() {
-        return $this->type_code;
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    public function getType_name() {
-        return $this->type_name;
+    public function getName() {
+        return $this->name;
     }
 
-    public function getType_place() {
-        return $this->type_place;
+    public function setName($name) {
+        $this->name = $name;
     }
 
-    public function setType_id($type_id) {
-        $this->type_id = $type_id;
+    public function getPlace() {
+        return $this->place;
     }
 
-    public function setType_code($type_code) {
-        $this->type_code = $type_code;
+    public function setPlace($place) {
+        $this->place = $place;
     }
-
-    public function setType_name($type_name) {
-        $this->type_name = $type_name;
-    }
-
-    public function setType_place($type_place) {
-        $this->type_place = $type_place;
-    }
-
-
-    
-    
-    
 }

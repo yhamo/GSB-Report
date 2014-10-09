@@ -34,8 +34,8 @@ $app->post('/drugs/results/', function(Request $request) use ($app) {
 
 // Details for a practitioner
 $app->get('/practitioners/{id}', function($id) use ($app) {
-    $practitioners = $app['dao.practitioner']->find($id);
-    return $app['twig']->render('practitioner.html.twig', array('practitioner' => $practitioners));
+    $practitioner = $app['dao.practitioner']->find($id);
+    return $app['twig']->render('practitioner.html.twig', array('practitioner' => $practitioner));
 });
 
 // List of all practitioners
@@ -46,13 +46,22 @@ $app->get('/practitioners/', function() use ($app) {
 
 // Search form for practitioners
 $app->get('/practitioners/search/', function() use ($app) {
-    $practitioners_type = $app['dao.practitioner_type']->findAll();
-    return $app['twig']->render('practitioners_search.html.twig', array('practitioners_type' => $practitioners_type));
+    $types = $app['dao.practitionertype']->findAll();
+    return $app['twig']->render('practitioners_search.html.twig', array('types' => $types));
 });
 
 // Results page for practitioners
 $app->post('/practitioners/results/', function(Request $request) use ($app) {
-    $familyId = $request->request->get('practitioner_type');
-    $practitioners = $app['dao.practitioner']->findAllByPractitionerType($familyId);
+    if ($request->request->has('type')) {
+        // Simple search by type
+        $typeId = $request->request->get('type');
+        $practitioners = $app['dao.practitioner']->findAllByType($typeId);
+    }
+    else {
+        // Advanced search by name and city
+        $name = $request->request->get('name');
+        $city = $request->request->get('city');
+        $practitioners = $app['dao.practitioner']->findAllByNameAndCity($name, $city);
+    }
     return $app['twig']->render('practitioners_results.html.twig', array('practitioners' => $practitioners));
 });
