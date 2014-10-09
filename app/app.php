@@ -1,5 +1,22 @@
 <?php
-
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+    'security.firewalls' => array(
+        'login' => array(
+            'pattern' => '^/login$',
+            'anonymous' => true
+        ),
+        'secured' => array(
+            'pattern' => '^.*$',
+            'logout' => true,
+            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+            'users' => $app->share(function () use ($app) {
+                return new GSB\DAO\VisitorDAO($app['db']);
+            }),
+        ),
+    ),
+));
 // Register global error and exception handlers
 use Symfony\Component\Debug\ErrorHandler;
 ErrorHandler::register();
