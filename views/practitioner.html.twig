@@ -1,0 +1,49 @@
+{% extends "layout.html.twig" %}
+{% set practitionerMenu = true %}
+
+{% block title %}{{ practitioner.Name }}{% endblock %}
+
+{% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
+<div class="well">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">name</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.name }}</p>
+            </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Prenom</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ practitioner.first_name }}</p>
+            </div>
+        </div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-3 control-label">type Practitionner</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ practitioner.type_id.type_name}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Son Code</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.zip_code }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Ville Affectation</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.city }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Coefficient</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ practitioner.coefficient }}</p>
+            </div>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}
