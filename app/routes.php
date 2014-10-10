@@ -56,8 +56,7 @@ $app->post('/practitioners/results/', function(Request $request) use ($app) {
         // Simple search by type
         $typeId = $request->request->get('type');
         $practitioners = $app['dao.practitioner']->findAllByType($typeId);
-    }
-    else {
+    } else {
         // Advanced search by name and city
         $name = $request->request->get('name');
         $city = $request->request->get('city');
@@ -69,7 +68,20 @@ $app->post('/practitioners/results/', function(Request $request) use ($app) {
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(
-        'error'         => $app['security.last_error']($request),
-        'last_name' => $app['session']->get('_security.last_name'),
+                'error' => $app['security.last_error']($request),
+                'last_name' => $app['session']->get('_security.last_name'),
     ));
 })->bind('login');
+
+// Details for a Visitor
+$app->get('/profil/', function($id) use ($app) {
+    $visitor = $app['dao.visitor']->find($id);
+    return $app['twig']->render('profil.html.twig', array('visitors' => $visitor));
+});
+// Profil Form
+$app->get('/profil', function(Request $request) use ($app) {
+    return $app['twig']->render('profil.html.twig', array(
+                'error' => $app['security.last_error']($request),
+                'last_name' => $app['session']->get('_security.last_name'),
+    ));
+})->bind('profil');
