@@ -76,12 +76,11 @@ $app->get('/login', function(Request $request) use ($app) {
 // Details for a Visitor
 $app->get('/profil/', function($id) use ($app) {
     $visitor = $app['dao.visitor']->find($id);
-    return $app['twig']->render('profil.html.twig', array('visitors' => $visitor));
+    return $app['twig']->render('profil.html.twig', array('visitor' => $visitor));
 });
 // Profil Form
-$app->get('/profil', function(Request $request) use ($app) {
-    return $app['twig']->render('profil.html.twig', array(
-                'error' => $app['security.last_error']($request),
-                'last_name' => $app['session']->get('_security.last_name'),
-    ));
+$app->get('/profil', function($id) use ($app) {
+     $visitor = $app['dao.visitor']->find($id);
+    return $app['twig']->render('profil.html.twig', array('visitor' => $visitor))
+           ;
 })->bind('profil');
