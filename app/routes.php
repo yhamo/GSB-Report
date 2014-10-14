@@ -73,14 +73,7 @@ $app->get('/login', function(Request $request) use ($app) {
     ));
 })->bind('login');
 
-// Details for a Visitor
-$app->get('/profil/', function($id) use ($app) {
-    $visitor = $app['dao.visitor']->find($id);
+$app->get('/profil/', function(Request $request) use ($app) {
+    $visitor = $app['security']->getToken()->getUser();
     return $app['twig']->render('profil.html.twig', array('visitor' => $visitor));
 });
-// Profil Form
-$app->get('/profil', function($id) use ($app) {
-     $visitor = $app['dao.visitor']->find($id);
-    return $app['twig']->render('profil.html.twig', array('visitor' => $visitor))
-           ;
-})->bind('profil');

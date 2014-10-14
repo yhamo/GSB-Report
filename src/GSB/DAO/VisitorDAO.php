@@ -71,6 +71,9 @@ class VisitorDAO extends DAO implements UserProviderInterface
         $user = new Visitor();
         $user->setId($row['visitor_id']);
         $user->setUsername($row['user_name']);
+        $user->setAddress($row['visitor_address']);
+        $user->setCity($row['visitor_city']);
+        $user->setZip_code($row['visitor_zip_code']);
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);

@@ -46,3 +46,7 @@ $app['dao.practitioner'] = $app->share(function ($app) {
     $practitionerDAO->setPractitionerTypeDAO($app['dao.practitionertype']);
     return $practitionerDAO;
 });
+$app['dao.visitor'] = $app->share(function ($app) {
+    $drugDAO = new GSB\DAO\VisitorDAO($app['db']);
+    return $drugDAO;
+});
