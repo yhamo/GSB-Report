@@ -1,32 +1,48 @@
 {% extends "layout.html.twig" %}
+{% set ProfilMenu = true %}
 
-
-{% block title %}Praticiens{% endblock %}
+{% block title %} Modification du Profil {% endblock %}
 
 {% block content %}
 <h2 class="text-center">{{ block('title') }}</h2>
-{% if visitor %}
-    <div class="table-responsive">
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Ville</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            {% for visitor in visitors %}
-                <tr>
-                    <td><a href="/profil/{{ visitor.id }}">{{ visitor.last_name }}</a></td>
-                    <td>{{ visitor.first_name }}</td>
-                    <td>{{ visitor.address }}</td>
-                    <td>{{ visitor.zip_code }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-{% else %}
-    <div class="alert alert-warning">Aucun Détails trouvé.</div>
-{% endif %}   
+<div class="well">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Visitor</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ visitor.last_name }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Nom légal</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ visitor.first_name }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Votre addresse</label>
+            <div class="col-sm-9">
+                <p <input type="text" class="form-control" autofocus>{{ visitor.address }}/></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Effets secondaires</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ visitor.zip_code }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Contre-indications</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ visitor.city }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Prix d'un échantillon</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ visitor.hiring_date }}</p>
+            </div>
+        </div>
+    </form>
+</div>
 {% endblock %}
