@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use GSB\Form\Type\VisitorType;
 
 // Home page
 $app->get('/', function () use ($app) {
@@ -56,7 +57,8 @@ $app->post('/practitioners/results/', function(Request $request) use ($app) {
         // Simple search by type
         $typeId = $request->request->get('type');
         $practitioners = $app['dao.practitioner']->findAllByType($typeId);
-    } else {
+    }
+    else {
         // Advanced search by name and city
         $name = $request->request->get('name');
         $city = $request->request->get('city');
@@ -68,12 +70,27 @@ $app->post('/practitioners/results/', function(Request $request) use ($app) {
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(
-                'error' => $app['security.last_error']($request),
-                'last_name' => $app['session']->get('_security.last_name'),
-    ));
-})->bind('login');
+        'error'         => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+        ));
+})->bind('login');  // named route so that path('login') works in Twig templates
 
-$app->get('/profil/', function(Request $request) use ($app) {
+// Personal info
+$app->match('/me', function(Request $request) use ($app) {
     $visitor = $app['security']->getToken()->getUser();
-    return $app['twig']->render('profil.html.twig', array('visitor' => $visitor));
+    $visitorFormView = NULL;
+    $visitorForm = $app['form.factory']->create(new VisitorType(), $visitor);
+    $visitorForm->handleRequest($request);
+    if ($visitorForm->isValid()) {
+        $plainPassword = $visitor->getPassword();
+        // find the encoder for a UserInterface instance
+        $encoder = $app['security.encoder_factory']->getEncoder($visitor);
+        // compute the encoded password
+        $password = $encoder->encodePassword($plainPassword, $visitor->getSalt());
+        $visitor->setPassword($password); 
+        $app['dao.visitor']->save($visitor);
+        $app['session']->getFlashBag()->add('success', 'Vos informations personnelles ont été mises à jour.');
+    }
+    $visitorFormView = $visitorForm->createView();
+    return $app['twig']->render('visitor.html.twig', array('visitorForm' => $visitorFormView));
 });
