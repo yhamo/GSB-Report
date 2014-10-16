@@ -542,3 +542,6 @@ insert into formulating values (26,6);
 insert into formulating values (27,7);
 insert into formulating values (28,8);
 
+
+insert into `visit_report`values(1,1,1,'2000-10-20','blabla','la')
+
